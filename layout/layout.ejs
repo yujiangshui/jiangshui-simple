@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1" />
+	<meta name="renderer" content="webkit">
+	<title><% if (page.title){ %><%= page.title %> | <% } %>于江水</title>
+
+	<link rel="canonical" href="<%- page.permalink %>">
+	<%- css('css/style') %>
+	<%- feed_tag('atom.xml') %>
+	<script src="/js/jquery-1.9.1.min.js"></script>
+	<script src="/js/plugins.min.js"></script>
+	<script src="/js/global.min.js"></script>
+
+	<link rel="shortcut icon" href="http://jiangshui.b0.upaiyun.com/com/blog/favicon.png" >
+
+</head>
+<body>
+
+<div class="section-wrap section-header">
+	<div class="section">
+		<h1 class="logo"><a href="/">于江水</a></h1>
+		<p class="des">一入前端深似海</p>
+	</div>
+</div>
+<div class="section-wrap section-menu">
+	<div class="section">
+		<nav class="top-menu">
+			<ul class="menu">
+				<li><a href="/">返回首页</a></li>
+				<li><a href="/archives/">文章们</a></li>
+				<li><a href="/works/">工作与技能</a></li>
+				<li><a href="/projects/">项目与作品</a></li>
+			</ul>
+		</nav>
+	</div>
+</div>
+<%- body -%>
+<div class="section-wrap section-footer">
+	<div class="section">
+		<div class="copyright">&copy; 于江水 努力坚持高质量原创的美男子。<a href="/keep/">包养本人</a></div>
+		<ul class="social-links">
+			<li><a target="_blank" href="http://weibo.com/yujiangshui">Weibo</a></li>
+			<li><a target="_blank" href="https://twitter.com/yujiangshui">Twitter</a></li>
+			<li><a target="_blank" href="https://github.com/yujiangshui">Github</a></li>
+		</ul>
+	</div>
+</div>
+
+<a href="#" class="bact-to-top">&#xe626;</a>
+<div class="icon icon-loading loading"><span>loading...</span></div>
+<div class="loading-overlay"></div>
+
+<script type="text/javascript" src="http://js.tongji.linezing.com/3331442/tongji.js"></script><noscript><a href="http://www.linezing.com"><img src="http://img.tongji.linezing.com/3331442/tongji.gif"/></a></noscript>
+</body>
+</html>

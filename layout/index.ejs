@@ -1,0 +1,57 @@
+<div class="section-wrap section-page">
+	<div class="section">
+		<div class="page-home">
+			<div class="recent-activity">
+				<h2>最近在干啥</h2>
+				<ul class="list">
+					<li><a href="https://github.com/CN-Chrome-DevTools/CN-Chrome-DevTools">CN-Chrome-DevTools</a> - 翻译Chrome开发者工具中文手册。</li>
+					<li><a href="https://github.com/yujiangshui/w3c-read-easy">w3c-read-easy</a> - Make W3C's Document read easily. </li>
+					<li><a href="https://github.com/yujiangshui/html-structure-test">html-structure-test</a> - HTML 测试文件。</li>
+					<li><a href="https://github.com/yujiangshui/jupe.css">jupe.css</a> - 中文排版 CSS 。</li>
+				</ul>
+			</div>
+			<div class="about-me">
+				<h2>关于</h2>
+				<div class="text-wrap">
+					<div class="text">
+						<p>于江水，曾用网名 <a href="http://www.qianxingzhem.com/">潜行者m</a>，2012 年开始专注前端相关。懂一点 Web 开发，正在捣鼓一些小东西。</p>
+					</div>
+				</div>
+			</div>
+			<div class="recent-blog">
+				<h2>最新文章 <a class="more" href="/archives/">more</a></h2>
+				<ul class="list">
+				<% get_posts({'count':5}).each(function(post){ %>
+					<li><span class="blog-time"><%= date(post.date, 'YYYY/M/D') %> - </span><a href="<%= post.permalink %>"><%= post.title %></a></li>
+				<% }) %>
+				</ul>
+			</div>
+			<div class="recent-project">
+				<h2>最近项目 <a class="more" href="/projects/">more</a></h2>
+				<ul class="list">
+					<li><a href="https://github.com/yujiangshui/jiangshui-hexo">jiangshui-hexo</a> - 本站源代码</li>
+					<li><a href="https://github.com/yujiangshui/simple-share.js">simple-share.js</a> - 简单的分享代码</li>
+					<li><a href="https://github.com/yujiangshui/scrollbar-nav">scrollbar-nav</a> - Scrollbar nav 为页面提供更好的跳转用户体验</li>
+					<li><a href="https://github.com/yujiangshui/ysass">ysass</a> - 基于 Sass 的简单高效的前端页面重构项目框架</li>
+				</ul>
+			</div>
+			<div class="friend-links">
+				<h2>朋友和高手们</h2>
+				<ul class="list-links">
+					<li><a href="https://www.imququ.com/">JerryQu 的小站</a></li>
+					<li><a href="http://kayosite.com/">Kayo's Melody</a></li>
+					<li><a href="http://blog.wpjam.com/">我爱水煮鱼</a></li>
+					<li><a href="http://www.zhangxinxu.com/wordpress/">张鑫旭</a></li>
+					<li><a href="http://tinghaige.com/">听海阁</a></li>
+					<li><a href="http://geek100.com/">前端集合</a></li>
+					<li><a href="http://qianduanblog.com/">前端博客</a></li>
+					<li><a href="http://blog.daimajia.com/">代码家</a></li>
+					<li><a href="http://www.ychong.com/">Ychong</a></li>
+					<li><a href="http://mufeng.me/">牧风</a></li>
+					<li><a href="http://bigc.at/">大猫</a></li>
+					<li><a href="http://ued.taobao.org/blog/">淘宝 UED</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

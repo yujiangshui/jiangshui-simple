@@ -1,0 +1,247 @@
+/*!
+Project Name: jupe.css
+Version: 1.0
+Author: Jiangshui Yu
+Website: http://yujiangshui.com
+E-mail: yujiangshui@gmail.com
+*/
+
+/***********************************************************************************/
+/*                                      vars                                       */
+/***********************************************************************************/
+
+/*color*/
+$txt-black : #333;
+$txt-blue : #3498db;
+$txt-darkblue : #2980b9;
+$txt-gray : #999;
+
+$bg-lightgray : #f9f9f9;
+$bg-gray : #eee;
+
+$border-gray : #eee;
+$border-lightgray : #f9f9f9;
+
+/*sizes*/
+$size-default : 16px;
+
+/*type*/
+$line-height : 1.7;
+
+/*fonts*/
+/* via https://github.com/zenozeng/fonts.css */
+@mixin font-hei {
+	font-family: "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "Hiragino Sans GB", "Source Han Sans CN", "Source Han Sans SC", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+}
+@mixin font-kai {
+	font-family: Baskerville, Georgia, "Liberation Serif", "Kaiti SC", STKaiti, "AR PL UKai CN", "AR PL UKai HK", "AR PL UKai TW", "AR PL UKai TW MBE", "AR PL KaitiM GB", KaiTi, KaiTi_GB2312, "TW\-Kai", serif;
+}
+@mixin font-song {
+	font-family: Georgia, "Nimbus Roman No9 L", "Songti SC", STSong, "AR PL New Sung", "AR PL SungtiL GB", NSimSun, SimSun, "TW\-Sung", "WenQuanYi Bitmap Song", "AR PL UMing CN", "AR PL UMing HK", "AR PL UMing TW", "AR PL UMing TW MBE", serif;
+}
+@mixin font-fang-song {
+	font-family: Baskerville, "Times New Roman", "Liberation Serif", STFangsong, FangSong, FangSong_GB2312, "CWTEX\-F", serif;
+}
+@mixin font-ming {
+	font-family: Georgia, "Nimbus Roman No9 L", "AR PL UMing CN", "AR PL UMing HK", "AR PL UMing TW", "AR PL UMing TW MBE", PMingLiU, MingLiU, serif;
+}
+@mixin font-code {
+	font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+/***********************************************************************************/
+/*                                      utils                                      */
+/***********************************************************************************/
+
+
+
+/***********************************************************************************/
+/*                                      main                                       */
+/***********************************************************************************/
+
+.jupe{
+	@include font-hei;
+	color: $txt-black;
+	font-size: $size-default;
+	line-height: $line-height;
+
+	/*a*/
+	a{
+		text-decoration: none;
+		color: $txt-darkblue;
+		padding-bottom: 1px;
+		border-bottom: 1px solid $txt-darkblue;
+		&:hover{
+			color: $txt-blue;
+			border-bottom: 1px solid $txt-blue;
+		}
+	}
+
+	/*hn*/
+	@for $i from 1 through 6 {
+		h#{$i} {
+			font-weight: normal;
+			font-size: 2.4em - $i * 0.2em;
+			margin: 1.6em 0 0.8em 0;
+		}
+	}
+
+	/*p*/
+	p{
+		margin: 1em 0;
+	}
+
+	/*tt、i、b、big、small、em、strong、dfn、kbd、cite、code*/
+	@each $tags in tt, i, b, big, small, em, strong, dfn, kbd, cite, code {
+		#{$tags} {
+			margin: 0 .2em;
+			padding: 0 .2em;
+		}
+	}
+	tt,
+	kbd{
+		font-family: monospace;
+		background: $bg-lightgray;
+	}
+	i,
+	em,
+	dfn,
+	cite{
+		font-style: italic;
+	}
+	strong,
+	b{
+		font-weight: bold;
+	}
+	big{
+		font-size: 1.2em;
+	}
+	small{
+		font-size: .9em;
+	}
+	code{
+		background: $bg-lightgray;
+		padding: .2em .4em;
+	}
+
+	/*pre、var*/
+	pre{
+		background: $bg-lightgray;
+		padding: 1em;
+		overflow: auto;
+		font-size: .9em;
+		code{
+			background: transparent;
+		}
+	}
+	var{
+		font-style: italic;
+	}
+
+	/*Blockquote*/
+	blockquote{
+		padding-left: .8em;
+		margin: 1em .8em;
+		border-left: 4px solid $bg-gray;
+		small,
+		cite{
+			font-size: .8em;
+			color: $txt-gray;
+			font-style: normal;
+		}
+		small{
+			font-size: .8em;
+			cite{
+				font-size: 1em;
+			}
+		}
+	}
+
+	/*q*/
+	q{
+		margin: 0 .2em;
+	}
+	q::before {
+		content: "“";
+	}
+	q::after {
+		content: "”";
+	}
+
+	/*del、ins*/
+	del{
+		text-decoration: none;
+		border-bottom: 1px solid $txt-black;
+		height: .8em;
+		display: inline-block;
+	}
+	ins{
+		text-decoration: none;
+		border-bottom: 1px solid $txt-black;
+	}
+
+	/*sub、sup*/
+	sub{
+		vertical-align: baseline;
+		font-size: .8em;
+		position: relative;
+		bottom: -.25em;
+		margin: 0 .4em 0 0;
+	}
+	sup{
+		vertical-align: baseline;
+		font-size: .8em;
+		position: relative;
+		top: -.25em;
+		margin: 0 .4em 0 0;
+	}
+
+	/*img*/
+	p img{
+		vertical-align: middle;
+		display: inline;
+		border: none;
+		margin: 0;
+	}
+	img{
+		display: block;
+		border: 1px solid $border-lightgray;
+		max-width: 100%;
+		height: auto;
+		margin: 1em 0;
+	}
+
+	/*table*/
+	table{
+		border: 1px solid $border-gray;
+		border-collapse: collapse;
+		text-align: center;
+	}
+	caption{
+		padding: .2em .6em;
+		border: 1px solid $border-gray;
+	}
+	thead{
+
+	}
+	tr{
+		&:nth-child(2n){
+			background: $bg-lightgray;
+		}
+	}
+	th{
+		border-bottom: 1px solid $border-gray;
+		padding: .2em .6em;
+	}
+	td{
+		border-bottom: 1px solid $border-gray;
+		padding: .2em .6em;
+	}
+
+}
+
+
+
+/***********************************************************************************/
+/*                                     tools                                       */
+/***********************************************************************************/
