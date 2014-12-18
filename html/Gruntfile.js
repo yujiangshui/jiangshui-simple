@@ -5,38 +5,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
 
     pkg: grunt.file.readJSON('package.json'),
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-      },
-      plugins: {
-        files: {
-          'js/plugins.min.js': ['js/plugins.js']
-        }
-      },
-      global: {
-        files: {
-          'js/global.min.js': ['js/global.js']
-        }
-      }
-    },
-    concat: {
-      options: {
-        separator: ';'
-      },
-      plugins: {
-        src: ['js/plugins/*.js'],
-        dest: 'js/plugins.js'
-      }
-    },
-    jshint: {
-      files: ['js/global.js'],
-    },
     watch: {
-      scripts: {
-        files: ['js/global.js'],
-        tasks: ['jshint','uglify:global']
-      },
       sass: {
         files: ['scss/*.scss'],
         tasks: ['sass']
@@ -48,7 +17,6 @@ module.exports = function(grunt) {
           files: [
               'html/*.*',
               'style.css',
-              'js/global.min.js',
               'img/{,*/}*'
           ]
       }
@@ -89,7 +57,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-sass');
 
-  grunt.registerTask('default', ['jshint', 'sass', 'concat', 'uglify', 'connect','watch']);
+  grunt.registerTask('default', ['sass', 'connect', 'watch']);
 
 };
 
