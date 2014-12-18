@@ -1,7 +1,8 @@
 <%- partial('_partial/sidebar') %>
 			<div class="jupe main-body">
 				<ul class="post-list">
-				  <% page.posts.each(function(post){ %>
+				  <%
+				  	page.posts.each(function(post){ %>
 					<li class="post-item"><a class="post-title" href="<%- url_for(post.path) %>"><%= post.title %></a><span class="post-time"><%= date(post.date, 'YYYY.MM.DD') %></span></li>
 				  <% }) %>
 				</ul>

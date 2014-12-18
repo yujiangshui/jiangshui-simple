@@ -238,21 +238,6 @@ input{
 	margin-bottom: 10px;
 	line-height: 1.4;
 }
-
-
-.footer{
-	@extend .clearfix;
-	font-size: .8em;
-	color: $txt-gray;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-.color-egg{
-	color: $txt-gray;
-	text-decoration: none;
-}
-
-
 .post-content{
 	font-size: .9em;
 	.post-title{
@@ -283,7 +268,7 @@ input{
 	&:before{
 		content: 'share:';
 		font-size: 14px;
-		line-height: 33px;
+		line-height: 40px;
 		margin-left: 10px;
 		margin-right: 10px;
 		text-transform: uppercase;
@@ -301,5 +286,29 @@ input{
 	padding-top: 10px;
 	margin-top: 10px;
 	border-top: 1px solid $border-gray;
+}
+.cats-info{
+	margin-bottom: 10px;
+	color: #ccc;
+	strong{
+		margin: 0;
+		font-weight: normal;
+		color: #333;
+	}
+}
+
+.footer{
+	@extend .clearfix;
+	font-size: .8em;
+	color: $txt-gray;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	a{
+		text-decoration: none;
+	}
+}
+.color-egg{
+	color: $txt-gray;
+	text-decoration: none;
 }
 /*section-main*/

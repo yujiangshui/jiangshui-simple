@@ -1,6 +1,6 @@
 <%- partial('_partial/sidebar') %>
 			<div class="jupe main-body">
-				<div class="cats-info"><%= path.split('/')[1] %> 下的文章：</div>
+				<div class="cats-info"><strong><%= path.split('/')[1] %></strong> 下的文章：</div>
 				<ul class="post-list">
 				  <% page.posts.each(function(post){ %>
 					<li class="post-item"><a class="post-title" href="<%- url_for(post.path) %>"><%= post.title %></a><span class="post-time"><%= date(post.date, 'YYYY.MM.DD') %></span></li>
