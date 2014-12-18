@@ -1,57 +1,16 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1" />
-	<meta name="renderer" content="webkit">
-	<%
-	  var title = page.title;
-
-	  if (is_archive()){
-	    title = 'Archives';
-
-	    if (is_month()){
-	      title += ': ' + page.year + '/' + page.month;
-	    } else if (is_year()){
-	      title += ': ' + page.year;
-	    }
-	  } else if (is_category()){
-	    title = 'Category: ' + page.category;
-	  } else if (is_tag()){
-	    title = 'Tag: ' + page.tag;
-	  }
-	%>
-	<title><% if (title){ %><%= title %> | <% } %><%= config.title %></title>
-  <%- open_graph({twitter_id: theme.twitter, google_plus: theme.google_plus, fb_admins: theme.fb_admins, fb_app_id: theme.fb_app_id}) %>
-	<% if (theme.rss){ %>
-	<link rel="alternative" href="<%- theme.rss %>" title="<%= config.title %>" type="application/atom+xml">
-	<% } %>
-
-	<link rel="stylesheet" href="/css/style.css" >
-	<link rel="shortcut icon" href="/images/favicon.png"/>
-	<script data-main="/js/build" src="/js/require.js"></script>
-
-</head>
+<%- partial('_partial/head') %>
 <body>
 
 <div class="section-wrap section-main">
 	<div class="section">
-		<div class="header">
-			<h1 class="logo"><a href="\">于江水</a></h1>
-			<p class="social-links"><a href="http://www.weibo.com/yujiangshui">Weibo</a> \ <a href="https://twitter.com/yujiangshui">Twitter</a> \ <a href="https://github.com/yujiangshui">Github</a></p>
-		</div>
+		<%- partial('_partial/header') %>
 		<div class="main">
 			<%- body -%>
 		</div>
-		<div class="footer">
-			<p class="left">&copy; Jiangshui 一个努力坚持中低质量原创的<a class="color-egg" href="/images/meinanzi.png">美男子</a>。生活不易，<a href="#">包养本人</a>。</p>
-			<p class="right">Base on <a href="https://github.com/yujiangshui/jiangshui-simple">Github</a> and <a href="http://hexo.io/">Hexo</a> .</p>
-		</div>
+		<%- partial('_partial/footer') %>
 	</div>
 </div>
 
-<script type="text/javascript" src="http://js.tongji.linezing.com/3331442/tongji.js"></script><noscript><a href="http://www.linezing.com"><img src="http://img.tongji.linezing.com/3331442/tongji.gif"/></a></noscript>
+<%- partial('_partial/linezing-analytics') %>
 </body>
 </html>

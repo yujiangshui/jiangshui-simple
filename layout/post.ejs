@@ -13,30 +13,6 @@
 					</div>
 					<%- page.content %>
 				</div>
-				<div class="post-share">
-					<ul class="share-list">
-						<li><a class="icon icon-weibo" href="javascript:share.weibo();"><span>weibo</span></a></li>
-						<li><a class="icon icon-twitter" href="javascript:share.twitter();"><span>twitter</span></a></li>
-						<li><a class="icon icon-douban" href="javascript:share.douban();"><span>douban</span></a></li>
-						<li><a class="icon icon-qzone" href="javascript:share.qzone();"><span>qzone</span></a></li>
-					</ul>
-				</div>
-				<div class="post-comments">
-					<!-- 多说评论框 start -->
-					<div class="ds-thread" data-thread-key="<%- page.id %>" data-title="<%- page.title %>" data-url="<%- url_for(page.permalink) %>"></div>
-					<!-- 多说评论框 end -->
-					<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-					<script type="text/javascript">
-					var duoshuoQuery = {short_name:"jiangshui"};
-						(function() {
-							var ds = document.createElement('script');
-							ds.type = 'text/javascript';ds.async = true;
-							ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-							ds.charset = 'UTF-8';
-							(document.getElementsByTagName('head')[0]
-							 || document.getElementsByTagName('body')[0]).appendChild(ds);
-						})();
-						</script>
-					<!-- 多说公共JS代码 end -->
-				</div>
+				<%- partial('_partial/share') %>
+				<%- partial('_partial/duoshuo-comments') %>
 			</div>
