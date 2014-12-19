@@ -698,16 +698,16 @@ input[type="button"] {
   border-radius: 0;
 }
 
-.clearfix:before, .section:before, .form-row:before, .header:before, .main:before, .post-item:before, .post-meta:before, .post-share:before, .footer:before, .clearfix:after, .section:after, .form-row:after, .header:after, .main:after, .post-item:after, .post-meta:after, .post-share:after, .footer:after {
+.clearfix:before, .section:before, .form-row:before, .header:before, .main:before, .main-body:before, .post-item:before, .post-meta:before, .post-share:before, .footer:before, .clearfix:after, .section:after, .form-row:after, .header:after, .main:after, .main-body:after, .post-item:after, .post-meta:after, .post-share:after, .footer:after {
   content: "";
   display: table;
 }
 
-.clearfix:after, .section:after, .form-row:after, .header:after, .main:after, .post-item:after, .post-meta:after, .post-share:after, .footer:after {
+.clearfix:after, .section:after, .form-row:after, .header:after, .main:after, .main-body:after, .post-item:after, .post-meta:after, .post-share:after, .footer:after {
   clear: both;
 }
 
-.clearfix, .section, .form-row, .header, .main, .post-item, .post-meta, .post-share, .footer {
+.clearfix, .section, .form-row, .header, .main, .main-body, .post-item, .post-meta, .post-share, .footer {
   zoom: 1;
 }
 

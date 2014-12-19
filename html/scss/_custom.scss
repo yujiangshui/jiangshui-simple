@@ -213,6 +213,7 @@ input{
 }
 
 .main-body{
+	@extend .clearfix;
 	overflow: hidden;
 }
 .post-list{
