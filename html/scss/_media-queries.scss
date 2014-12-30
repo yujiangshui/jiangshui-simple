@@ -1,0 +1,28 @@
+/***********************************************************************************/
+/*                                  Media Queries                                  */
+/***********************************************************************************/
+@media only screen and (max-width: 640px) {
+
+.sidebar{
+	display: none;
+}
+.post-list .post-time{
+	position: static;
+	float: none;
+}
+.post-list .post-title{
+	margin-right: 0;
+}
+.main{
+	padding: 10px;
+}
+.footer .left,
+.footer .right{
+	float: none;
+}
+.post-content{
+	font-size: .8em;
+}
+
+/*e640*/
+}

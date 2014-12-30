@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1" />
+	<meta name="renderer" content="webkit">
+	<title>HTML</title>
+
+	<link rel="stylesheet" href="../style.css" >
+
+	<link rel="shortcut icon" href="../images/favicon.png"/>
+	<script data-main="../js/build" src="../js/require.js"></script>
+	<!--[if lt IE 7]>
+	<style>
+		.section{
+			width: 780px;
+		}
+		.post-content img{
+			width: 100%;
+		}
+		.jupe pre{
+			width: 100%;
+		}
+	</style>
+	<![endif]-->
+</head>
+<body>
+
+<div class="section-wrap section-main">
+	<div class="section">
+		<div class="header">
+			<h1 class="logo"><a href="#">于江水</a></h1>
+			<p class="social-links"><a href="#">twitter</a> / <a href="#">twitter</a> / <a href="#">twitter</a></p>
+		</div>
+		<div class="main">
+			<div class="jupe main-body">
+				<div class="post-content">
+					<h1 class="post-title">WordPress Post Type 教程</h1>
+				<div class="post-meta">
+					<span class="post-time">2014/12/8</span>
+					<div class="post-cats">
+						<a href="http://yujiangshui.com/category/WordPress/">WordPress</a>
+					</div>
+				</div>
+			<h2 id="什么是_Post_Type_？">什么是 Post Type ？</h2>
+<p>WordPress 里面内置了两种常用的 Post Type ：Post（文章）、Page（页面），分别用来展示两种类型的内容，一种是相对动态的文章，另一种是相对固定的页面。</p>
+<p>除此之外，WordPress 还内置了其他几种 Post Type 用来展示不同类型的内容。但如果是一个比较复杂的网站或者需求自定义程度比较高，这时候就可以手动自己创建一个 Post Type 来展示某类信息。</p>
+<p>比如大型杂志网站，可以为每个杂志类型创建不同的 Post Type 来进行管理；大型企业网站，可以为每个产品类型创建不同的 Post Type 来展示。</p>
+<p>本教程以创建一个 Movies Post Type 为例，介绍一系列与 Post Type 有关的事情。创建之后，我们可以新建 Movie 介绍，每一篇 Movie 可以自己添加 导演 等信息，还可以创建单独的电影列表等。</p>
+<p>使用的主题是官方的 <code>twentyfourteen</code>，建议边看边在本地服务器修改测试。</p>
+<a id="more"></a>
+
+<h2 id="创建一个_post_type">创建一个 post type</h2>
+<p>创建一个新的 Post Type 需要使用 <a href="http://codex.wordpress.org/Function_Reference/register_post_type" target="_blank" rel="external">register_post_type</a> 函数来注册一下。需要在你主题的 <code>functions.php</code> 文件下调用该函数：</p>
+<pre><code>register_post_<span class="built_in">type</span>( <span class="variable">$post_type</span>, <span class="variable">$args</span> );
+</code></pre><p><code>$post_type</code> 参数就是你自定义 Post Type 的名称，Post Type 可以自定义的功能非常多，所以这个函数里面的 <code>$args</code> 参数会很多。所以通常会用下面这种格式来注册：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">my_custom_post_product</span><span class="params">()</span> </span>{
+    <span class="variable">$args</span> = <span class="keyword">array</span>();
+    register_post_type( <span class="string">'product'</span>, <span class="variable">$args</span> );
+}
+add_action( <span class="string">'init'</span>, <span class="string">'my_custom_post_product'</span> );
+</code></pre><p>包裹在一个函数中，定义一个数组，然后挂靠到 <code>init</code> 这个 action 上。这样 WordPress 在初始化的时候，就会执行这个函数注册一个自定义 Post Type，因为调用 <code>register_post_type()</code> 的时候，必须要在 <code>admin_menu</code> action 之前，在 <code>after_setup_theme</code> action 之后，所以这里最好挂靠到 <code>init</code> action 上。</p>
+<p>参数很多，为了写教程方便，只列出比较常用的参数，大体结构如下：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">my_custom_post_movie</span><span class="params">()</span> </span>{
+  <span class="variable">$labels</span> = <span class="keyword">array</span>(
+    <span class="string">'name'</span>               =&gt; _x( <span class="string">'Movies'</span>, <span class="string">'post type 名称'</span> ),
+    <span class="string">'singular_name'</span>      =&gt; _x( <span class="string">'Movie'</span>, <span class="string">'post type 单个 item 时的名称，因为英文有复数'</span> ),
+    <span class="string">'add_new'</span>            =&gt; _x( <span class="string">'新建电影'</span>, <span class="string">'添加新内容的链接名称'</span> ),
+    <span class="string">'add_new_item'</span>       =&gt; __( <span class="string">'新建一个电影'</span> ),
+    <span class="string">'edit_item'</span>          =&gt; __( <span class="string">'编辑电影'</span> ),
+    <span class="string">'new_item'</span>           =&gt; __( <span class="string">'新电影'</span> ),
+    <span class="string">'all_items'</span>          =&gt; __( <span class="string">'所有电影'</span> ),
+    <span class="string">'view_item'</span>          =&gt; __( <span class="string">'查看电影'</span> ),
+    <span class="string">'search_items'</span>       =&gt; __( <span class="string">'搜索电影'</span> ),
+    <span class="string">'not_found'</span>          =&gt; __( <span class="string">'没有找到有关电影'</span> ),
+    <span class="string">'not_found_in_trash'</span> =&gt; __( <span class="string">'回收站里面没有相关电影'</span> ),
+    <span class="string">'parent_item_colon'</span>  =&gt; <span class="string">''</span>,
+    <span class="string">'menu_name'</span>          =&gt; <span class="string">'Movies'</span>
+  );
+  <span class="variable">$args</span> = <span class="keyword">array</span>(
+    <span class="string">'labels'</span>        =&gt; <span class="variable">$labels</span>,
+    <span class="string">'description'</span>   =&gt; <span class="string">'我们网站的电影信息'</span>,
+    <span class="string">'public'</span>        =&gt; <span class="keyword">true</span>,
+    <span class="string">'menu_position'</span> =&gt; <span class="number">5</span>,
+    <span class="string">'supports'</span>      =&gt; <span class="keyword">array</span>( <span class="string">'title'</span>, <span class="string">'editor'</span>, <span class="string">'thumbnail'</span>, <span class="string">'excerpt'</span>, <span class="string">'comments'</span> ),
+    <span class="string">'has_archive'</span>   =&gt; <span class="keyword">true</span>
+  );
+  register_post_type( <span class="string">'movie'</span>, <span class="variable">$args</span> );
+}
+add_action( <span class="string">'init'</span>, <span class="string">'my_custom_post_movie'</span> );
+</code></pre><p>这里为了直观方便，我直接使用了中文，更好的应该是使用英文然后通过本地化函数来翻译成中文。</p>
+<p>参数有点多，也可以使用 <a href="http://generatewp.com/post-type/" target="_blank" rel="external">generatewp</a> 工具自定义参数，然后改改，会稍微方便一点。</p>
+<p>从上面代码可以看到 <code>$args</code> 数组里面有一个 <code>labels</code> 配置项，用来配置显示文案有关的内容，为了清晰所以单独拿出来创建了一个数组。其他配置项看下英文也能猜出大体意思，如果想要详细了解，可以看下官方文档：<a href="http://codex.wordpress.org/Function_Reference/register_post_type" target="_blank" rel="external">register_post_type</a> 。</p>
+<p>将上面代码加到主题 <code>functions.php</code> 的最下面，进入后台你会发现多出了 <code>Movies</code> 选项，这样表示注册成功：</p>
+<p><img src="http://jiangshui.b0.upaiyun.com/blog/2014/12/rpt0.png" alt="自定义类型"></p>
+<p>这时候我们可以新建 Movie 发表一篇电影类型的文章了。但是这样与文章类型基本相同，我们需要更多的自定义来完善我们的 Movie 类型。</p>
+<h3 id="为_Post_Type_添加分类功能">为 Post Type 添加分类功能</h3>
+<p>就电影来说，可以分为科幻、动作、战争等类别，那么我们就为自定义的 Movie 添加分类功能，这样就可以编辑新分类以及归类我们的电影了。这个分类跟文章里面的分类性质是一样的。</p>
+<p>添加分类功能需要使用函数 <a href="http://codex.wordpress.org/Function_Reference/register_taxonomy" target="_blank" rel="external">register_taxonomy</a>，使用方法也很简单，跟注册 Post Type 函数类似，只不过多了一个参数用来指定对应的 Post Type ：</p>
+<pre><code><span class="function">register_taxonomy</span>( <span class="variable">$taxonomy</span>, <span class="variable">$object_type</span>, <span class="variable">$args</span> );
+</code></pre><p>就本例而言，可以配置如下常用参数：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">my_taxonomies_movie</span><span class="params">()</span> </span>{
+  <span class="variable">$labels</span> = <span class="keyword">array</span>(
+    <span class="string">'name'</span>              =&gt; _x( <span class="string">'电影分类'</span>, <span class="string">'taxonomy 名称'</span> ),
+    <span class="string">'singular_name'</span>     =&gt; _x( <span class="string">'电影分类'</span>, <span class="string">'taxonomy 单数名称'</span> ),
+    <span class="string">'search_items'</span>      =&gt; __( <span class="string">'搜索电影分类'</span> ),
+    <span class="string">'all_items'</span>         =&gt; __( <span class="string">'所有电影分类'</span> ),
+    <span class="string">'parent_item'</span>       =&gt; __( <span class="string">'该电影分类的上级分类'</span> ),
+    <span class="string">'parent_item_colon'</span> =&gt; __( <span class="string">'该电影分类的上级分类：'</span> ),
+    <span class="string">'edit_item'</span>         =&gt; __( <span class="string">'编辑电影分类'</span> ),
+    <span class="string">'update_item'</span>       =&gt; __( <span class="string">'更新电影分类'</span> ),
+    <span class="string">'add_new_item'</span>      =&gt; __( <span class="string">'添加新的电影分类'</span> ),
+    <span class="string">'new_item_name'</span>     =&gt; __( <span class="string">'新电影分类'</span> ),
+    <span class="string">'menu_name'</span>         =&gt; __( <span class="string">'电影分类'</span> ),
+  );
+  <span class="variable">$args</span> = <span class="keyword">array</span>(
+    <span class="string">'labels'</span> =&gt; <span class="variable">$labels</span>,
+    <span class="string">'hierarchical'</span> =&gt; <span class="keyword">true</span>,
+  );
+  register_taxonomy( <span class="string">'movie_category'</span>, <span class="string">'movie'</span>, <span class="variable">$args</span> );
+}
+add_action( <span class="string">'init'</span>, <span class="string">'my_taxonomies_movie'</span>, <span class="number">0</span> );
+</code></pre><p>添加到主题之后，我们看到出现了熟悉的文章分类功能，只不过上面的文案全部变成我们自定义的内容了：</p>
+<p><img src="http://jiangshui.b0.upaiyun.com/blog/2014/12/rpt1.png" alt="自定义分类"></p>
+<p>这里我们添加两个分类作为演示。</p>
+<h3 id="为_Post_Type_添加自定义_Meta_Box">为 Post Type 添加自定义 Meta Box</h3>
+<p>我们想要添加的电影类型不能仅仅只有正文内容，我们还需要额外添加一些 导演 之类的有关内容。那么就需要添加自定义 Meta Box，Meta Box 可以在文章发表页面中添加自定义的表单，编写文章的时候可以填写额外的信息然后在前端调用出来。</p>
+<p>自定义 Meta Box 需要用到 <a href="http://codex.wordpress.org/Function_Reference/add_meta_box" target="_blank" rel="external">add_meta_box</a> 函数：</p>
+<pre><code><span class="function">add_meta_box</span>( <span class="variable">$id</span>, <span class="variable">$title</span>, <span class="variable">$callback</span>, <span class="variable">$post_type</span>, <span class="variable">$context</span>,<span class="variable">$priority</span>, <span class="variable">$callback_args</span> );
+</code></pre><p>老规矩，具体参数内容查看官方文档，这里只介绍常用用法。我们注册一个 Meta Box ：</p>
+<pre><code>add_action( <span class="string">'add_meta_boxes'</span>, <span class="string">'movie_director'</span> );
+<span class="function"><span class="keyword">function</span> <span class="title">movie_director</span><span class="params">()</span> </span>{
+    add_meta_box(
+        <span class="string">'movie_director'</span>,
+        <span class="string">'电影导演'</span>,
+        <span class="string">'movie_director_meta_box'</span>,
+        <span class="string">'movie'</span>,
+        <span class="string">'side'</span>,
+        <span class="string">'low'</span>
+    );
+}
+</code></pre><p>然后在配置参数里面指定了回调函数 <code>movie_director_meta_box</code>，我们需要在这个函数里面创建表单：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">movie_director_meta_box</span><span class="params">(<span class="variable">$post</span>)</span> </span>{
+
+    <span class="comment">// 创建临时隐藏表单，为了安全</span>
+    wp_nonce_field( <span class="string">'movie_director_meta_box'</span>, <span class="string">'movie_director_meta_box_nonce'</span> );
+    <span class="comment">// 获取之前存储的值</span>
+    <span class="variable">$value</span> = get_post_meta( <span class="variable">$post</span><span class="variable">-&gt;ID</span>, <span class="string">'_movie_director'</span>, <span class="keyword">true</span> );
+
+    <span class="preprocessor">?&gt;</span>
+
+    &lt;label <span class="keyword">for</span>=<span class="string">"movie_director"</span>&gt;&lt;/label&gt;
+    &lt;input type=<span class="string">"text"</span> id=<span class="string">"movie_director"</span> name=<span class="string">"movie_director"</span> value=<span class="string">"&lt;?php echo esc_attr( $value ); ?&gt;"</span> placeholder=<span class="string">"输入导演名称"</span> &gt;
+
+    <span class="preprocessor">&lt;?php</span>
+}
+</code></pre><p>这样就可以在文章界面边栏显示出来刚刚创建的表单了：</p>
+<p><img src="http://jiangshui.b0.upaiyun.com/blog/2014/12/rpt2.png" alt="自定义 Meta Box"></p>
+<p>但是这时候，你的表单是没法用的，因为你提交文章之后并没有保存这个 Meta Box 的内容，下面是验证保存内容的代码：</p>
+<pre><code>add_action( <span class="string">'save_post'</span>, <span class="string">'movie_director_save_meta_box'</span> );
+<span class="function"><span class="keyword">function</span> <span class="title">movie_director_save_meta_box</span><span class="params">(<span class="variable">$post_id</span>)</span></span>{
+
+    <span class="comment">// 安全检查</span>
+    <span class="comment">// 检查是否发送了一次性隐藏表单内容（判断是否为第三者模拟提交）</span>
+    <span class="keyword">if</span> ( ! <span class="keyword">isset</span>( <span class="variable">$_POST</span>[<span class="string">'movie_director_meta_box_nonce'</span>] ) ) {
+        <span class="keyword">return</span>;
+    }
+    <span class="comment">// 判断隐藏表单的值与之前是否相同</span>
+    <span class="keyword">if</span> ( ! wp_verify_nonce( <span class="variable">$_POST</span>[<span class="string">'movie_director_meta_box_nonce'</span>], <span class="string">'movie_director_meta_box'</span> ) ) {
+        <span class="keyword">return</span>;
+    }
+    <span class="comment">// 判断该用户是否有权限</span>
+    <span class="keyword">if</span> ( ! current_user_can( <span class="string">'edit_post'</span>, <span class="variable">$post_id</span> ) ) {
+        <span class="keyword">return</span>;
+    }
+
+    <span class="comment">// 判断 Meta Box 是否为空</span>
+    <span class="keyword">if</span> ( ! <span class="keyword">isset</span>( <span class="variable">$_POST</span>[<span class="string">'movie_director'</span>] ) ) {
+        <span class="keyword">return</span>;
+    }
+
+    <span class="variable">$movie_director</span> = sanitize_text_field( <span class="variable">$_POST</span>[<span class="string">'movie_director'</span>] );
+    update_post_meta( <span class="variable">$post_id</span>, <span class="string">'_movie_director'</span>, <span class="variable">$movie_director</span> );
+
+}
+</code></pre><p>虽然最关键的函数就在最后一句，但是一定要注意安全的校验。把这些代码添加进 <code>functions.php</code> 文件之后，你的 Meta Box 就可以正常工作了。如果你需要更多表单，按照这个模式自定义表单结构，然后添加保存函数即可。</p>
+<p>下面，我们迫不及待的添加两部电影《鱼与锅之战：宿命对决》 和 《鱼与锅之战：我爱水煮鱼》 内容如下：</p>
+<p><img src="http://jiangshui.b0.upaiyun.com/blog/2014/12/rpt3.png" alt="电影1"></p>
+<p><img src="http://jiangshui.b0.upaiyun.com/blog/2014/12/rpt4.png" alt="电影2"></p>
+<p>添加完之后，我们可以看下所有电影：</p>
+<p><img src="http://jiangshui.b0.upaiyun.com/blog/2014/12/rpt5.png" alt="自定义电影列表"></p>
+<p>列表空荡荡的，好难看，我可不可以加上导演字段？当然可以，使用 <code>[manage $post type posts custom column](http://codex.wordpress.org/Plugin_API/Action_Reference/manage_$post_type_posts_custom_column)</code> 即可实现，我们添加：</p>
+<pre><code>add_action(<span class="string">"manage_posts_custom_column"</span>,  <span class="string">"movie_custom_columns"</span>);
+add_filter(<span class="string">"manage_edit-movie_columns"</span>, <span class="string">"movie_edit_columns"</span>);
+<span class="function"><span class="keyword">function</span> <span class="title">movie_custom_columns</span><span class="params">(<span class="variable">$column</span>)</span></span>{
+    <span class="keyword">global</span> <span class="variable">$post</span>;
+    <span class="keyword">switch</span> (<span class="variable">$column</span>) {
+        <span class="keyword">case</span> <span class="string">"movie_director"</span>:
+            <span class="keyword">echo</span> get_post_meta( <span class="variable">$post</span><span class="variable">-&gt;ID</span>, <span class="string">'_movie_director'</span>, <span class="keyword">true</span> );
+            <span class="keyword">break</span>;
+    }
+}
+<span class="function"><span class="keyword">function</span> <span class="title">movie_edit_columns</span><span class="params">(<span class="variable">$columns</span>)</span></span>{
+
+    <span class="variable">$columns</span>[<span class="string">'movie_director'</span>] = <span class="string">'导演'</span>;
+
+    <span class="keyword">return</span> <span class="variable">$columns</span>;
+}
+</code></pre><p>即添加了列导演字段，并从每篇文章中读取出来。这样我们的列表就变成了：</p>
+<p><img src="http://jiangshui.b0.upaiyun.com/blog/2014/12/rpt6.png" alt="自定义电影列表"></p>
+<p>OK，我们的后端部分就这样愉快的完成了。打开生成好的链接看下，咦，Not Found？是这样的，如果你的网站设置了固定连接，当你新建了 Post Type 之后，你必须要在后台更新一下固定连接设置才行。找到后台固定连接，再点击一下下面的“保存设置”，之后就可以正常访问了。</p>
+<h2 id="展示_Post_Type_的内容">展示 Post Type 的内容</h2>
+<p>单纯创建 Post Type 只是可以让你输入内容，没有什么意义，我们还需要在前台输出自定义 Post Type 的内容。</p>
+<h3 id="自定义_Post_Type_的模板和样式">自定义 Post Type 的模板和样式</h3>
+<p>根据 <a href="http://blog.wpjam.com/m/wordpress-template-hierarchy-infograghic/" target="_blank" rel="external">WordPress 的模板调用规则</a> 我们可以得知，我们只需要创建 <code>archive-[post_type].php</code> 和 <code>single-[post_type].php</code> 就可以实现该 Post Type 的列表自定义和文章自定义。当访问 Post Type，WordPress 会优先调用这些模板来渲染。</p>
+<p>需要注意的是，你需要在注册 Post Type 的时候设置 <code>'has_archive'   =&gt; true</code> 才会有列表。</p>
+<p>现在我们就把主题里自带的 <code>archive.php</code> 和 <code>single.php</code> 文件复制一份命名为 <code>archive-movie.php</code> 和 <code>single-movie.php</code>，为了演示，这里我不做很多自定义，只是输出导演信息表示一下。</p>
+<p>我们分别在 L.56 和 L.23 附近的合适位置输出 Meta Box 信息：</p>
+<pre><code><span class="built_in">echo</span> <span class="string">'导演：'</span>.get_post_meta( get_the_ID(), <span class="string">'_movie_director'</span>, <span class="literal">true</span> );
+</code></pre><p>然后刷新访问电影列表和具体的电影就可以看到输出的导演信息了。</p>
+<p>这里只是举个例子，实际中往往会自定义结构和输出的信息格式等，这里不再进一步修改。这里不再麻烦演示了。</p>
+<h3 id="调用_WP_Query_高度自定义调用_Post_Type_的内容">调用 WP_Query 高度自定义调用 Post Type 的内容</h3>
+<p>上面操作依赖模板，如果需要高度自定义或者在页面的某个模块中调用列表，就需要用到 WP_Query 类来调用：</p>
+<pre><code><span class="variable">$args</span> = <span class="keyword">array</span>( <span class="string">'post_type'</span> =&gt; <span class="string">'product'</span>, <span class="string">'posts_per_page'</span> =&gt; <span class="number">10</span> );
+<span class="variable">$loop</span> = <span class="keyword">new</span> WP_Query( <span class="variable">$args</span> );
+<span class="keyword">while</span> ( <span class="variable">$loop</span><span class="variable">-&gt;have_posts</span>() ) : <span class="variable">$loop</span><span class="variable">-&gt;the_post</span>();
+  the_title();
+  <span class="keyword">echo</span> <span class="string">'&lt;div class="entry-content"&gt;'</span>;
+  the_content();
+  <span class="keyword">echo</span> <span class="string">'&lt;/div&gt;'</span>;
+<span class="keyword">endwhile</span>;
+</code></pre><p>查询出来之后就跟常规的主循环一样了，自定输出结构即可。</p>
+<h3 id="在首页列表中显示自定义_Post_Type_的内容">在首页列表中显示自定义 Post Type 的内容</h3>
+<p>虽然我们自定义好了 Post Type 同时也编写了一些内容，但是在首页的列表里面并没有显示出来。自定义的 Post Type 的内容不会自动混入主循环里面。那如何让自定义 Post Type 的内容显示出来？</p>
+<p>你需要使用 <a href="http://codex.wordpress.org/Plugin_API/Action_Reference/pre_get_posts" target="_blank" rel="external">pre_get_posts</a> 这个 action 来做一些处理：</p>
+<pre><code>add_action( <span class="string">'pre_get_posts'</span>, <span class="string">'add_my_post_types_to_query'</span> );
+
+<span class="function"><span class="keyword">function</span> <span class="title">add_my_post_types_to_query</span><span class="params">( <span class="variable">$query</span> )</span> </span>{
+  <span class="keyword">if</span> ( is_home() &amp;&amp; <span class="variable">$query</span><span class="variable">-&gt;is_main_query</span>() )
+    <span class="variable">$query</span><span class="variable">-&gt;set</span>( <span class="string">'post_type'</span>, <span class="keyword">array</span>( <span class="string">'post'</span>, <span class="string">'page'</span>, <span class="string">'movie'</span> ) );
+  <span class="keyword">return</span> <span class="variable">$query</span>;
+}
+</code></pre><p>在上面的 <code>$query</code> 变量里面设置的 <code>post_type</code> 数组就是要在主循环里面展示的内容，将你的自定义 Post Type 填写进去就可以在首页中显示出来了。</p>
+<h3 id="设置自定义_Post_Type_的固定连接">设置自定义 Post Type 的固定连接</h3>
+<p>创建一个新的 Post Type 有时候也是为了更方便做 SEO，所以设置它的固定连接也非常重要。这里主要用到注册 Post Type 的参数数组里面的 <code>rewrite</code> 参数，常用以下几两项：</p>
+<ul>
+<li><code>slug</code> =》自定义固定连接结构别名，默认是使用 Post Type 名（例如本例的 movie），可以被翻译。一般来说 Post Type 名可能与实际需要的 URL 不一样（ Post Type 为 movie，但 URL 可能需要 movies），就可使用该项自定义。</li>
+<li><code>with_front</code> =》 固定连接是否以根目录为基础路径。如果你在固定连接设置页面设置你的结构为 <code>/archives/</code>，那么你的 Post Type 生成的连接默认为 <code>/archives/movie</code> 如果设置该项为 <code>false</code> 即可去掉前面的 <code>/archives/</code> 直接基于根路径生成固定连接。</li>
+</ul>
+<p>大功告成，但这只是 Post Type 最基础的用法，Post Type 还有其他更高级的用法，更详细的参数配置还需要你去进一步挖掘来适应你网站的功能需求。</p>
+
+				</div>
+			</div>
+			<div class="post-share">
+				<ul class="share-list">
+					<li><a class="icon icon-weibo" href="javascript:share.weibo();"><span>weibo</span></a></li>
+					<li><a class="icon icon-twitter" href="javascript:share.twitter();"><span>twitter</span></a></li>
+					<li><a class="icon icon-douban" href="javascript:share.douban();"><span>douban</span></a></li>
+					<li><a class="icon icon-qzone" href="javascript:share.qzone();"><span>qzone</span></a></li>
+				</ul>
+			</div>
+			<div class="post-comments">
+				<!-- 多说评论框 start -->
+				<div class="ds-thread" data-thread-key="请将此处替换成文章在你的站点中的ID" data-title="请替换成文章的标题" data-url="请替换成文章的网址"></div>
+				<!-- 多说评论框 end -->
+				<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+				<script type="text/javascript">
+				var duoshuoQuery = {short_name:"jiangshui"};
+					(function() {
+						var ds = document.createElement('script');
+						ds.type = 'text/javascript';ds.async = true;
+						ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+						ds.charset = 'UTF-8';
+						(document.getElementsByTagName('head')[0]
+						 || document.getElementsByTagName('body')[0]).appendChild(ds);
+					})();
+					</script>
+				<!-- 多说公共JS代码 end -->
+			</div>
+		</div>
+		<div class="footer">
+			<p class="left">&copy; Jiangshui 一个努力坚持中低质量原创的<a class="color-egg" href="#">美男子</a>。生活不易，<a href="#">包养本人</a>。</p>
+			<p class="right">Base on <a href="#">Github</a> and <a href="#">Hexo</a> .</p>
+		</div>
+	</div>
+</div>
+
+
+</body>
+</html>

@@ -906,56 +906,6 @@ input {
 .main-body {
   overflow: hidden;
 }
-<<<<<<< HEAD
-.main-body .post-list {
-  list-style-type: none;
-  padding: 0;
-}
-.main-body .title {
-  color: #333;
-}
-.main-body .variable {
-  color: #333;
-}
-.main-body .keyword {
-  color: #690;
-}
-.main-body .comment {
-  color: #7f8c8d;
-  font-style: italic;
-}
-.main-body .string {
-  color: #07a;
-}
-
-.post-toc {
-  float: right;
-  margin: 0 0 0 10px;
-  max-width: 30%;
-}
-
-.post-toc ol {
-  list-style-type: none;
-  padding-left: 10px;
-}
-
-.toc-title {
-  border: 1px solid #ccc;
-  padding: 5px 10px;
-  font-weight: bold;
-}
-
-.toc {
-  border: 1px solid #ccc;
-  margin: 0 0 10px 0;
-  padding: 10px;
-}
-
-.toc-number {
-  color: #333;
-}
-=======
->>>>>>> parent of aa6725e... Add: toc\code highlight\bug fixed
 
 .post-list a {
   color: #333333;
