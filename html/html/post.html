@@ -52,6 +52,112 @@
 <p>使用的主题是官方的 <code>twentyfourteen</code>，建议边看边在本地服务器修改测试。</p>
 <a id="more"></a>
 
+<pre><code>    <span class="comment">// load more</span>
+    <span class="keyword">var</span> postTpl = [<span class="string">'&lt;div class="post-item"&gt;'</span>,
+                <span class="string">'&lt;div class="pi-img"&gt;&lt;a href="#{POST-URL}"&gt;&lt;img src="#{IMAGE-URL}" alt=""&gt;&lt;/a&gt;&lt;/div&gt;'</span>,
+                <span class="string">'&lt;div class="pi-body"&gt;'</span>,
+                    <span class="string">'&lt;h2 class="pi-title"&gt;&lt;a href="#{POST-URL}"&gt;#{POST-TITLE}&lt;/a&gt;&lt;/h2&gt;'</span>,
+                    <span class="string">'&lt;div class="pi-meta"&gt;'</span>,
+                        <span class="string">'&lt;div class="pi-time"&gt;#{POST-TIME}&lt;/div&gt;'</span>,
+                        <span class="string">'&lt;div class="pi-cats"&gt;#{POST-CATS}&lt;/div&gt;'</span>,
+                    <span class="string">'&lt;/div&gt;'</span>,
+                <span class="string">'&lt;/div&gt;'</span>,
+            <span class="string">'&lt;/div&gt;'</span>].join(<span class="string">''</span>);
+
+    <span class="comment">/**
+     * 将 JSON 组装成 DOM
+     * @param  {json} data    [ajax data]
+     * @param  {string} postTpl [template]
+     * @return {string}         [DOM string]
+     */</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">getJSONDOM</span><span class="params">(data, postTpl)</span> </span>{
+
+        <span class="keyword">var</span> postHTML = <span class="string">''</span>;
+
+        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; data.posts.length; i++) {
+            <span class="keyword">var</span> postURL = data.posts[i].link;
+            <span class="keyword">var</span> imageURL = data.posts[i].thumb;
+            <span class="keyword">var</span> postTitle = data.posts[i].title;
+            <span class="keyword">var</span> postTimeDate = <span class="keyword">new</span> <span class="built_in">Date</span>(data.posts[i].time * <span class="number">1000</span>);
+            <span class="keyword">var</span> postTime = postTimeDate.getFullYear() + <span class="string">'-'</span> + postTimeDate.getMonth() + <span class="string">'-'</span> + postTimeDate.getDate();
+            <span class="keyword">var</span> postCats = <span class="string">''</span>;
+            <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; data.posts[i].cats.length; j++) {
+                <span class="keyword">var</span> thisCat = data.posts[i].cats[j];
+                postCats += <span class="string">'&lt;a href="?cat='</span> + thisCat.id + <span class="string">'"&gt;'</span> + thisCat.name + <span class="string">'&lt;/a&gt;'</span>;
+            }
+
+            postHTML += postTpl.replace(<span class="regexp">/#{POST-URL}/g</span>, postURL).replace(<span class="regexp">/#{IMAGE-URL}/</span>, imageURL).replace(<span class="regexp">/#{POST-TITLE}/</span>, postTitle).replace(<span class="regexp">/#{POST-TIME}/</span>, postTime).replace(<span class="regexp">/#{POST-CATS}/</span>, postCats);
+
+        }
+
+        <span class="keyword">return</span> postHTML;
+    }
+
+    <span class="comment">/**
+     * get ajax url
+     * @return {string} ajax url
+     */</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">getURL</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> <span class="string">'http://luxe.co/api/get_posts.json'</span> + $(<span class="string">'.load-more'</span>).attr(<span class="string">'data-posttype'</span>);
+    }
+
+    <span class="keyword">if</span> ( $(<span class="string">'.load-more'</span>) ) {
+
+        <span class="comment">// $('.load-more span').text('正在加载...');</span>
+        <span class="comment">// $.ajax({</span>
+        <span class="comment">//     'type': 'GET',</span>
+        <span class="comment">//     'url': getURL(),</span>
+        <span class="comment">//     'data': {},</span>
+        <span class="comment">//     'dataType': 'json',</span>
+        <span class="comment">//     'jsonp': true</span>
+        <span class="comment">// }).done(function(data) {</span>
+        <span class="comment">//     $('.load-more span').text('加载更多文章');</span>
+        <span class="comment">//     if ( $('.load-more').attr('data-hasmore') !== '0' ) {</span>
+        <span class="comment">//         $('.load-more').attr('data-hasmore',data.has_more);</span>
+        <span class="comment">//         $('.load-more').attr('data-firsttime',data.first_time);</span>
+        <span class="comment">//         $('.load-more').attr('data-lasttime',data.last_time);</span>
+        <span class="comment">//         var postHTML = getJSONDOM(data, postTpl);</span>
+        <span class="comment">//         $(".post-list").append(postHTML);</span>
+        <span class="comment">//     }else{</span>
+        <span class="comment">//         $('.load-more span').text('已经全部显示了');</span>
+        <span class="comment">//     }</span>
+        <span class="comment">// });</span>
+
+        <span class="comment">// load more trigger</span>
+        <span class="keyword">var</span> block = <span class="literal">true</span>;
+        $(<span class="string">'.load-more'</span>).on(<span class="string">'touchstart'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+            <span class="keyword">if</span> ( block ) {
+                block = <span class="literal">false</span>;
+                $(<span class="string">'.load-more span'</span>).text(<span class="string">'正在加载...'</span>);
+                $.ajax({
+                    <span class="string">'type'</span>: <span class="string">'GET'</span>,
+                    <span class="string">'url'</span>: getURL(),
+                    <span class="string">'data'</span>: {
+                        <span class="string">'last_time'</span>: $(<span class="string">'.load-more'</span>).attr(<span class="string">'data-lasttime'</span>)
+                    },
+                    <span class="string">'dataType'</span>: <span class="string">'json'</span>,
+                    <span class="string">'jsonp'</span>: <span class="literal">true</span>
+                }).done(<span class="function"><span class="keyword">function</span><span class="params">(data)</span> </span>{
+                    block = <span class="literal">true</span>;
+                    $(<span class="string">'.load-more span'</span>).text(<span class="string">'加载更多文章'</span>);
+                    <span class="keyword">if</span> ( $(<span class="string">'.load-more'</span>).attr(<span class="string">'data-hasmore'</span>) !== <span class="string">'0'</span> ) {
+                        $(<span class="string">'.load-more'</span>).attr(<span class="string">'data-hasmore'</span>,data.has_more);
+                        $(<span class="string">'.load-more'</span>).attr(<span class="string">'data-lasttime'</span>,data.last_time);
+                        <span class="keyword">var</span> postHTML = getJSONDOM(data, postTpl);
+                        $(<span class="string">".post-list"</span>).append(postHTML);
+                    }<span class="keyword">else</span>{
+                        $(<span class="string">'.load-more span'</span>).text(<span class="string">'已经全部显示了'</span>);
+                    }
+                });
+            }
+        });
+
+    }
+
+
+});
+</code></pre>
+
 <h2 id="创建一个_post_type">创建一个 post type</h2>
 <p>创建一个新的 Post Type 需要使用 <a href="http://codex.wordpress.org/Function_Reference/register_post_type" target="_blank" rel="external">register_post_type</a> 函数来注册一下。需要在你主题的 <code>functions.php</code> 文件下调用该函数：</p>
 <pre><code>register_post_<span class="built_in">type</span>( <span class="variable">$post_type</span>, <span class="variable">$args</span> );
@@ -96,6 +202,14 @@ add_action( <span class="string">'init'</span>, <span class="string">'my_custom_
 <p>将上面代码加到主题 <code>functions.php</code> 的最下面，进入后台你会发现多出了 <code>Movies</code> 选项，这样表示注册成功：</p>
 <p><img src="http://jiangshui.b0.upaiyun.com/blog/2014/12/rpt0.png" alt="自定义类型"></p>
 <p>这时候我们可以新建 Movie 发表一篇电影类型的文章了。但是这样与文章类型基本相同，我们需要更多的自定义来完善我们的 Movie 类型。</p>
+<ul>
+    <li>dksjaflkwjekfjak</li>
+    <li>dksjaflkwjekfjak</li>
+    <li>dksjaflkwjekfjak</li>
+    <li>dksjaflkwjekfjak</li>
+    <li>dksjaflkwjekfjak</li>
+    <li>dksjaflkwjekfjak</li>
+</ul>
 <h3 id="为_Post_Type_添加分类功能">为 Post Type 添加分类功能</h3>
 <p>就电影来说，可以分为科幻、动作、战争等类别，那么我们就为自定义的 Movie 添加分类功能，这样就可以编辑新分类以及归类我们的电影了。这个分类跟文章里面的分类性质是一样的。</p>
 <p>添加分类功能需要使用函数 <a href="http://codex.wordpress.org/Function_Reference/register_taxonomy" target="_blank" rel="external">register_taxonomy</a>，使用方法也很简单，跟注册 Post Type 函数类似，只不过多了一个参数用来指定对应的 Post Type ：</p>

@@ -454,6 +454,8 @@ E-mail: yujiangshui@gmail.com
   /*sub、sup*/
   /*img*/
   /*table*/
+  /* list */
+  /* HTML5 */
 }
 .jupe a {
   text-decoration: none;
@@ -493,7 +495,7 @@ E-mail: yujiangshui@gmail.com
   margin: 1.2em 0 0.6em 0;
 }
 .jupe p {
-  margin: 1em 0;
+  margin: 1.2em 0;
 }
 .jupe tt {
   margin: 0 .2em;
@@ -659,6 +661,13 @@ E-mail: yujiangshui@gmail.com
   border-bottom: 1px solid #eeeeee;
   padding: .2em .6em;
 }
+.jupe ul {
+  list-style-type: square;
+  padding-left: 1.4em;
+}
+.jupe figure {
+  margin: 1em 0;
+}
 
 /***********************************************************************************/
 /*                                     tools                                       */
@@ -717,7 +726,7 @@ html {
 
 body {
   color: #333;
-  font: normal 16px/1.4 '"Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "Hiragino Sans GB", "Source Han Sans CN", "Source Han Sans SC", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif';
+  font: normal 16px/1.4 '"Hiragino Sans GB","Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "Source Han Sans CN", "Source Han Sans SC", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif';
   width: 100%;
 }
 
@@ -906,7 +915,54 @@ input {
 .main-body {
   overflow: hidden;
 }
+.main-body .title {
+  color: #333;
+}
+.main-body .variable {
+  color: #333;
+}
+.main-body .keyword {
+  color: #690;
+}
+.main-body .comment {
+  color: #7f8c8d;
+  font-style: italic;
+}
+.main-body .string {
+  color: #07a;
+}
 
+.post-toc {
+  float: right;
+  margin: 0 0 0 10px;
+  max-width: 30%;
+}
+
+.post-toc ol {
+  list-style-type: none;
+  padding-left: 10px;
+}
+
+.toc-title {
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  font-weight: bold;
+}
+
+.toc {
+  border: 1px solid #ccc;
+  margin: 0 0 10px 0;
+  padding: 10px;
+}
+
+.toc-number {
+  color: #333;
+}
+
+.post-list {
+  list-style-type: none;
+  padding: 0;
+}
 .post-list a {
   color: #333333;
 }
@@ -1023,6 +1079,27 @@ input {
 /*                                  Media Queries                                  */
 /***********************************************************************************/
 @media only screen and (max-width: 640px) {
+  .header {
+    height: auto;
+  }
+
+  .social-links {
+    float: none;
+    text-align: center;
+    line-height: 40px;
+  }
+
+  .logo {
+    float: none;
+    text-align: center;
+  }
+
+  .post-toc {
+    max-width: none;
+    float: none;
+    margin: 0 0 1em 0;
+  }
+
   .sidebar {
     display: none;
   }

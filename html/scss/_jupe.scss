@@ -85,7 +85,7 @@ $line-height : 1.7;
 
 	/*p*/
 	p{
-		margin: 1em 0;
+		margin: 1.2em 0;
 	}
 
 	/*tt、i、b、big、small、em、strong、dfn、kbd、cite、code*/
@@ -233,6 +233,17 @@ $line-height : 1.7;
 	td{
 		border-bottom: 1px solid $border-gray;
 		padding: .2em .6em;
+	}
+
+	/* list */
+	ul{
+		list-style-type: square;
+		padding-left: 1.4em;
+	}
+
+	/* HTML5 */
+	figure{
+		margin: 1em 0;
 	}
 
 }
