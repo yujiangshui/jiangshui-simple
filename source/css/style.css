@@ -915,7 +915,8 @@ input {
 .main-body {
   overflow: hidden;
 }
-.main-body .post-list {
+.main-body .post-list,
+.main-body .share-list {
   list-style-type: none;
   padding: 0;
 }
