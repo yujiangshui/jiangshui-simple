@@ -3,6 +3,24 @@
 /***********************************************************************************/
 @media only screen and (max-width: 640px) {
 
+.header{
+	height: auto;
+}
+.social-links{
+	float: none;
+	text-align: center;
+	line-height: 40px;
+}
+.logo{
+	float: none;
+	text-align: center;
+}
+.post-toc{
+	max-width: none;
+	float: none;
+	margin: 0 0 1em 0;
+}
+
 .sidebar{
 	display: none;
 }
